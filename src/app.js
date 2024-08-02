@@ -6,28 +6,8 @@ import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
 import cors from "cors";
 import "dotenv/config";
-// import multer from "multer";
-// import { GridFsStorage } from "multer-gridfs-storage";
-// import { GridFSBucket } from "mongodb";
-// import mongoose from "mongoose";
 
-// const storage = new GridFsStorage({
-//   url: "mongodb+srv://dhirenbk14:helloworld12@cluster23.16jhenq.mongodb.net/blog_db?retryWrites=true&w=majority&appName=Cluster23",
-//   file: (req, file) => {
-//     return {
-//       filename: file.orginalname,
-//       bucketName: "uploads",
-//     };
-//   },
-// });
-// const upload = multer({ storage: storage });
 
-// let gfs;
-// mongoose.connection.once("open", () => {
-//   gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-//     bucketName: "uploads",
-//   });
-// });
 connectDB().then(() => {
   const app = express();
   app.use(

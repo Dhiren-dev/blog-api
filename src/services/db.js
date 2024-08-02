@@ -1,15 +1,12 @@
 import { connect } from "mongoose";
+import "dotenv/config";
 
 const connectDB = async () => {
   try {
-    await connect(
-      "mongodb+srv://dhirenbk14:helloworld12@cluster23.16jhenq.mongodb.net/blog_db?retryWrites=true&w=majority&appName=Cluster23",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
-    console.log("Connect to Mongodb");
+    await connect(process.env.DB_URL);
+    console.log("Connect to Mongo DataBase");
+    console.log(process.env.DB_URL)
+    console.log(process.env.SECRET)
   } catch (err) {
     console.log(err);
   }
