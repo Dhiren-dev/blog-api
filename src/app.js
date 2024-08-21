@@ -7,17 +7,18 @@ import userRoute from "./routes/userRoute.js";
 import cors from "cors";
 import "dotenv/config";
 
+const port = process.env.PORT || 3000;
+const app = express();
+app.use(json());
+app.use(urlencoded({ extended: false }));
 
 connectDB().then(() => {
-  const app = express();
   app.use(
     cors({
       origin: "http://localhost:5173",
       credentials: true,
     })
   );
-  app.use(json());
-  app.use(urlencoded({ extended: false }));
   app.use("/user", userRoute);
   app.use("/auth", authRoute);
   app.use("/", async (req, res) => {
@@ -29,7 +30,7 @@ connectDB().then(() => {
     }
   });
 
-  app.listen(process.env.PORT, () => {
+  app.listen(port, () => {
     console.log(`server stared on PORT => ${process.env.PORT}`);
   });
 });

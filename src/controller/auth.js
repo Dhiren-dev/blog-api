@@ -6,7 +6,7 @@ import generateTokenAndSetCookie from "../util/generateToken.js";
 const signUp = async (req, res) => {
   try {
     const { username, email, password, fullName } = req.body;
-
+    console.log(username);
     if (!username || !email || !password || !fullName) {
       return res.status(400).json({ message: "Please fill the form" });
     }
@@ -23,7 +23,9 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message });
     }
 
+    console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
 
     const newUser = new User({
       username,
@@ -32,7 +34,7 @@ const signUp = async (req, res) => {
       fullName,
     });
     await newUser.save();
-
+    console.log(newUser);
     return res.status(201).json({ message: "User created successfully!" });
   } catch (err) {
     return res
@@ -44,7 +46,7 @@ const signUp = async (req, res) => {
 const logIn = async (req, res) => {
   try {
     const { usernameOrEmail, password } = req.body;
-
+    console.log(usernameOrEmail);
     if (!usernameOrEmail || !password) {
       return res.status(400).json({ message: "All the fields are required" });
     }
@@ -52,6 +54,8 @@ const logIn = async (req, res) => {
     const user = await User.findOne({
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
     });
+
+    console.log(user);
 
     if (!user) {
       return res.status(401).json({ message: "Invalid username or email" });
@@ -62,8 +66,8 @@ const logIn = async (req, res) => {
     if (!isValidPassword) {
       return res.status(401).json({ message: "Invalid password" });
     }
-    await generateTokenAndSetCookie(user, res);
-
+    const token = await generateTokenAndSetCookie(user, res);
+    console.log("token",token);
     return res.status(200).json({ message: "Logged in successfully!" });
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error " + err });
@@ -117,8 +121,8 @@ const resetPassword = async (req, res) => {
       expires: null,
     };
     await user.save();
-
     return res.status(200).json({ message: "Password reset successfully" });
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });

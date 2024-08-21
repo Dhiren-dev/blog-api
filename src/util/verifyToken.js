@@ -1,16 +1,15 @@
-import jwt from "jsonwebtoken"
-
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 const verifyToken = async (req, res, next) => {
     try {
         const authorization = req.headers.authorization;
-        console.log(authorization)
+        console.log(authorization);
         const token = authorization.split(" ")[1];
-        console.log(token);
         if(!token) {
             return res.status(400).json({message: "Invalid token"})
         }
 
-        jwt.verify(token, "GUNNER1234", (err, decoded) => {
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
             if(err) {
                 return res.status(401).json({message: "Invalid token"})
             }

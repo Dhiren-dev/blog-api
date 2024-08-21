@@ -61,7 +61,7 @@ const updateAuthenticatedUserProfile = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Profile updated successfully!", data: user });
+      .json({ message: "Profile updated successfully!", user});
   } catch (err) {
     return res.status(500).json({message: "Internal Server Error" + err})
   }
@@ -116,7 +116,7 @@ const createPost = async (req, res) => {
       author: userId,
     });
     await post.save();
-    console.log(post);
+    
     const user = await User.findById(userId, { _id: 1 });
 
     if (user.role === "user") {
@@ -162,9 +162,9 @@ const getPostById = async (req, res) => {
   try {
     const postId = req.params.id;
     if (!postId) return res.status(404).json({ message: "Not found" });
-
     const post = await Post.findById(postId);
-    return res.status(200).json({ post: post });
+    return res.status(200).json({post});
+
   } catch (err) {
     return res.status(400).json({message: "Internal Server Error" + err})
   }
@@ -173,8 +173,7 @@ const getPostById = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     const allPosts = await Post.find();
-    return res.status(200).json({data: allPosts});
-
+    return res.status(200).json({allPosts});
   } catch (err) {
     return res.status(401).json({ message: "Internal Server Error" + err });
   }
@@ -197,7 +196,7 @@ const addComment = async (req, res) => {
       .populate("userId", "_id")
       .populate("postId", "_id");
 
-    return res.status(200).json({ message: populatedComment });
+    return res.status(200).json({populatedComment});
   } catch (err) {
     return res.status(500).json({message: "Internal Server Error" + err})
   }
@@ -207,7 +206,7 @@ const getAllComments = async (req, res) => {
   try {
     const postId = req.params.id;
     const comments = await Comment.find({ postId });
-    return res.status(200).json({ comments: comments });
+    return res.status(200).json({comments});
   } catch (err) {
     return res.status(500).json({message: "Internal Server Error" + err})
   }
@@ -220,7 +219,7 @@ const getCommentById = async (req, res) => {
 
     const commentById = await Comment.find({ postId, _id: commentId, userId });
 
-    return res.json({ data: commentById });
+    return res.json({commentById});
   } catch (err) {
     return res.status(500).json({message: "Internal Server Error" + err})
   }
@@ -237,7 +236,7 @@ const editCommentById = async (req, res) => {
       { body }
     );
 
-    return res.json({ data: editedCommentByUser });
+    return res.json({editedCommentByUser});
   } catch (err) {
     return res.status(500).json({message: "Internal Server Error" + err})
   }

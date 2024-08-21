@@ -23,7 +23,7 @@ router.patch("/profile", verifyToken, user.updateAuthenticatedUserProfile);
 router.get("/posts", user.getAllPosts);
 router.post("/posts", verifyToken, user.createPost);
 
-router.get("/posts/:id", verifyToken, user.getPostById);
+router.get("/posts/:id", user.getPostById);
 router.put("/posts/:id", verifyToken, user.updatePostById);
 
 router.get("/posts/:id/comments", verifyToken, user.getAllComments);
