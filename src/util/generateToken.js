@@ -7,9 +7,9 @@ const generateTokenAndSetCookie = async (user, res) => {
     console.log(token);
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 1000 * 86400 * 2),
-      sameSite: "Lax",
-      // secure: true,
-      // httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      httpOnly: false,
     });
   } catch (err) {
     throw new Error(
