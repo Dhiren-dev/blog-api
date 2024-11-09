@@ -1,16 +1,4 @@
 import user from "../controller/user.js";
-// import {
-//   addComment,
-//   getAuthenticatedUserProfile,
-//   updateAuthenticatedUserProfile,
-//   getAllPosts,
-//   createPost,
-//   getPostById,
-//   updatePostById,
-//   getCommentById,
-//   editCommentById,
-//   getUserProfileByUsername,
-// } from "../controller/user.js";
 import express from "express";
 import verifyToken from "../util/verifyToken.js";
 
@@ -28,6 +16,7 @@ router.put("/posts/:id", verifyToken, user.updatePostById);
 
 router.get("/posts/:id/comments", verifyToken, user.getAllComments);
 router.post("/posts/:id/comments", verifyToken, user.addComment);
+
 router.get("/posts/:postId/comments/:commentId  ", verifyToken, user.getCommentById);
 router.put("/posts/:postId/comments/:commentId", verifyToken, user.editCommentById);
 

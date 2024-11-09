@@ -13,6 +13,9 @@ const postSchema = new Schema(
       required: true,
       default: "",
     },
+    subtitle: {
+      type: String,
+    },
     content: {
       type: String,
       required: true,

@@ -24,6 +24,7 @@ const getUserProfileByUsername = async (req, res) => {
 const getAuthenticatedUserProfile = async (req, res) => {
   try {
     const userId = req.userId;
+    console.log("inside authenticated controller", userId);
     const user = await User.findOne(
       { _id: userId },
       { _id: 0, password: 0, role: 0, __v: 0 }
@@ -108,10 +109,15 @@ const isUsernameAvailableNow = async (username, userId) => {
 const createPost = async (req, res) => {
   try {
     const userId = req.userId;
-    const { title, content } = req.body;
+    const { title, content, subtitle } = req.body;
+
+    if(!title) {
+    return res.status(409).json({message: "title is required to create blog"})
+    }
 
     const post = await Post({
       title: title,
+      subtitle: subtitle,
       content: content,
       author: userId,
     });

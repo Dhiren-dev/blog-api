@@ -5,7 +5,7 @@ const generateTokenAndSetCookie = async (user, res) => {
   try {
     const token = await generateToken(user);
     console.log(token);
-    res.cookie("authtoken", token, {
+    res.cookie("authToken", token, {
       expires: new Date(Date.now() + 1000 * 86400 * 2),
       sameSite: "Lax",
       // secure: true,

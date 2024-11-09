@@ -1,9 +1,11 @@
 import express from "express";
 import auth from "../controller/auth.js";
-// import verifyToken from './../util/verifyToken';
+import multer from "multer";
+import { storage } from "../util/storage.js";
+const upload = multer({ storage: storage });
 const router = express.Router();
 
-router.post("/signup", auth.signUp);
+router.post("/signup", upload.single("avatar"), auth.signUp);
 router.post("/login", auth.logIn);
 router.post("/forget-password", auth.forgotPassword);
 router.post("/reset-password/:token", auth.resetPassword);

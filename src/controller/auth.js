@@ -3,12 +3,16 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import generateTokenAndSetCookie from "../util/generateToken.js";
 
+
+const defaultImgUrl = "../../public/default.png";
+
+
 const signUp = async (req, res) => {
   try {
     const { username, email, password, fullName } = req.body;
-    console.log(username);
+
     if (!username || !email || !password || !fullName) {
-      return res.status(400).json({ message: "Please fill the form" });
+      return res.status(400).json({ message: "Please fill all the required field" });
     }
 
     const existingUser = await User.findOne({
