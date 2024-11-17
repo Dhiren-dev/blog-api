@@ -19,7 +19,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: "https://blog-dhirendevs-projects.vercel.app",
+    origin: "https://blog-api-q9s2.onrender.com",
     credentials: true,  
   })
 );
