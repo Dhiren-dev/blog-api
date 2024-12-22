@@ -10,7 +10,9 @@ const generateTokenAndSetCookie = async (user, res) => {
       expires: new Date(Date.now() + 1000 * 86400 * 2),
       httpOnly: false,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'none',
+      domain: 'vercel.app',
+      path: '/'
     });
   } catch (err) {
     throw new Error(
