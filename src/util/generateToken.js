@@ -3,6 +3,7 @@ import "dotenv/config";
 
 const generateTokenAndSetCookie = async (user, res) => {
   try {
+    console.log("inside token generation");
     const token = await generateToken(user);
     console.log(token);
     res.cookie("authToken", token, {
