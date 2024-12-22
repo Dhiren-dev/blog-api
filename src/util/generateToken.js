@@ -11,7 +11,6 @@ const generateTokenAndSetCookie = async (user, res) => {
       httpOnly: false,
       secure: true,
       sameSite: 'none',
-      domain: 'vercel.app',
       path: '/'
     });
   } catch (err) {
