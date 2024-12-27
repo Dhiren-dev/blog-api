@@ -6,6 +6,18 @@ import generateTokenAndSetCookie from "../util/generateToken.js";
 
 const defaultImgUrl = "../../public/default.png";
 
+const check = async (req, res) => {
+  const authToken = req.cookies.authToken;
+  if (!authToken) {
+    return res.status(401).json({ message: 'No authToken cookie found' });
+  }
+  try {
+    const decoded = jwt.verify(authToken, 'GUNNER1234');
+    res.status(200).json({message: decoded, type: "success"});
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid authToken' });
+  }
+};
 
 const signUp = async (req, res) => {
   try {
@@ -144,4 +156,4 @@ const logOut = (req, res) => {
   }
 };
 
-export default { signUp, logIn, logOut, forgotPassword, resetPassword };
+export default { signUp, logIn, logOut, forgotPassword, resetPassword , check};
