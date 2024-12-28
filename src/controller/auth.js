@@ -12,8 +12,7 @@ const check = async (req, res) => {
     return res.status(401).json({ message: 'No authToken cookie found' });
   }
   try {
-    const decoded = jwt.verify(authToken, 'GUNNER1234');
-    res.status(200).json({message: decoded, type: "success"});
+    res.status(200).json({authToken: authToken});
   } catch (err) {
     return res.status(401).json({ message: 'Invalid authToken' });
   }
