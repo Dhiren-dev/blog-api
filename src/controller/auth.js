@@ -8,6 +8,7 @@ const defaultImgUrl = "../../public/default.png";
 
 const check = async (req, res) => {
   const authToken = req.cookies.authToken;
+  console.log(authToken);
   if (!authToken) {
     return res.status(401).json({ message: 'No authToken cookie found' });
   }
