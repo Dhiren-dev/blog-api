@@ -14,7 +14,7 @@ const check = async (req, res) => {
   try {
     res.status(200).json({authToken: authToken});
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid authToken' });
+    return res.status(401).json({ message: 'Invalid authToken', error: error});
   }
 };
 
@@ -37,10 +37,7 @@ const signUp = async (req, res) => {
           : "Email already exists";
       return res.status(400).json({ message });
     }
-
-    console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
 
     const newUser = new User({
       username,
@@ -70,7 +67,6 @@ const logIn = async (req, res) => {
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
     });
 
-    console.log(user);
 
     if (!user) {
       return res.status(401).json({ message: "Invalid username or email" });
@@ -82,7 +78,7 @@ const logIn = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
     const token = await generateTokenAndSetCookie(user, res);
-    console.log("token",token);
+
     return res.status(200).json({ message: "Logged in successfully!" });
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error " + err });
@@ -109,8 +105,7 @@ const forgotPassword = async (req, res) => {
 
     return res.status(200).json({ message: "Reset password email sent" });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error", error: error });
   }
 };
 
@@ -131,16 +126,17 @@ const resetPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     user.password = hashedPassword;
+
     user.passwordReset = {
       token: null,
       expires: null,
     };
+
     await user.save();
     return res.status(200).json({ message: "Password reset successfully" });
     
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error", error: error});
   }
 };
 
