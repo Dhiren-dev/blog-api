@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 
+const defaultImgUrl = "../../public/uploads/default.png"
+
 const userSchema = new Schema(
   {
     username: {
@@ -23,7 +25,8 @@ const userSchema = new Schema(
       default: "",
     },
     profilePicture: {
-      type: String,
+      data: Buffer,
+      contentType: String,
     },
     createdAt: {
       type: Date,

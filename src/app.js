@@ -32,7 +32,16 @@ connectDB().then(() => {
   app.use("/", async (req, res) => {
     try {
       const users = await User.aggregate([{ $project: { password: 0 } }]);
-      return res.json(users);
+
+      const usersWithBase64Images = users.map(user => {
+        if (user.profilePicture && user.profilePicture.data) {
+          const base64Image = user.profilePicture.data.toString('base64');
+          user.profilePicture.data = `data:${user.profilePicture.contentType};base64,${base64Image}`;
+        }
+        return user;
+      });
+
+      return res.status(200).json(usersWithBase64Images);
     } catch (err) {
       return res.status(500).json({ message: "Failed to load user data." });
     }

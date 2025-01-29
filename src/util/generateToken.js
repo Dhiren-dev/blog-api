@@ -3,9 +3,7 @@ import "dotenv/config";
 
 const generateTokenAndSetCookie = async (user, res) => {
   try {
-    console.log("inside token generation");
     const token = await generateToken(user);
-    console.log(token);
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 1000 * 86400 * 2),
       httpOnly: false,

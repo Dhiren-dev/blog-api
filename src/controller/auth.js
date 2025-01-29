@@ -1,6 +1,8 @@
 import User from "../model/User.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 import generateTokenAndSetCookie from "../util/generateToken.js";
 
 
@@ -15,7 +17,7 @@ const check = async (req, res) => {
   try {
     res.status(200).json({authToken: authToken});
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid authToken', error: error});
+    return res.status(401).json({ message: 'Invalid authToken', error: err});
   }
 };
 
@@ -32,10 +34,7 @@ const signUp = async (req, res) => {
     });
 
     if (existingUser) {
-      const message =
-        existingUser.username === username
-          ? "Username already taken"
-          : "Email already exists";
+      const message = existingUser.username === username? "Username already taken" : "Email already exists";
       return res.status(400).json({ message });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,7 +45,9 @@ const signUp = async (req, res) => {
       password: hashedPassword,
       fullName,
     });
+
     await newUser.save();
+
     console.log(newUser);
     return res.status(201).json({ message: "User created successfully!" });
   } catch (err) {
